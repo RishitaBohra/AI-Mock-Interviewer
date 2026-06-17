@@ -63,3 +63,19 @@ n_results=3
     )
 
     return results
+
+def clear_collection():
+
+    global collection
+
+    client.delete_collection(
+
+        name="resume_chunks"
+
+    )
+
+    collection = client.get_or_create_collection(
+
+        name="resume_chunks"
+
+    )

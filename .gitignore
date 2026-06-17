@@ -45,3 +45,30 @@ backend/__pycache__
 # Mac
 
 .DS_Store
+
+# Python Virtual Environment
+
+venv/
+
+backend/venv/
+
+
+# ChromaDB
+
+chroma_db/
+
+backend/chroma_db/
+
+
+# Python Cache
+
+__pycache__/
+
+*.pyc
+
+
+# Environment Variables
+
+.env
+
+backend/.env

@@ -1,5 +1,16 @@
 from fastapi import FastAPI, UploadFile, File
 from pypdf import PdfReader
+from embeddings import get_embedding
+
+from vector_store import store_chunks
+
+from vector_store import (
+
+store_chunks,
+
+clear_collection
+
+)
 
 app = FastAPI()
 
@@ -39,10 +50,9 @@ chunk_size=500
 
     return chunks
 @app.post("/upload")
-
 async def upload_resume(
 
-file: UploadFile = File(...)
+    file: UploadFile = File(...)
 
 ):
 
@@ -53,12 +63,40 @@ file: UploadFile = File(...)
     for page in reader.pages:
 
         text += page.extract_text()
-    chunks=chunk_text(text) 
+
+    chunks = chunk_text(text)
+
+
+    embeddings = []
+
+    for chunk in chunks:
+
+        embedding = get_embedding(chunk)
+
+        embeddings.append(
+
+            embedding.tolist()
+
+        )
+
+    clear_collection()
+    store_chunks(
+
+        chunks,
+
+        embeddings
+
+    )
+
 
     return {
 
         "text": text,
-        "chunks": chunks
 
+        "chunks": chunks,
+
+        "stored": True,
+
+        "total_chunks": len(chunks)
 
     }
