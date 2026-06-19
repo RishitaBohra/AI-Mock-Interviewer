@@ -1,8 +1,13 @@
 from fastapi import FastAPI, UploadFile, File
 from pypdf import PdfReader
 from embeddings import get_embedding
+from pydantic import BaseModel
 
-from vector_store import store_chunks
+from vector_store import search_chunks
+
+from gemini_service import generate_questions
+
+
 
 from vector_store import (
 
@@ -98,5 +103,79 @@ async def upload_resume(
         "stored": True,
 
         "total_chunks": len(chunks)
+
+    }
+
+class InterviewRequest(
+
+    BaseModel
+
+):
+
+    role:str
+
+    difficulty:str
+
+
+
+@app.post(
+
+    "/generate-questions"
+
+)
+
+def interview(
+
+    request:
+
+    InterviewRequest
+
+):
+
+
+    query = request.role
+
+
+    query_embedding = get_embedding(
+
+        query
+
+    ).tolist()
+
+
+
+    results = search_chunks(
+
+        query_embedding
+
+    )
+
+
+
+    context = "\n".join(
+
+        results["documents"][0]
+
+    )
+
+
+
+    questions = generate_questions(
+
+        context,
+
+        request.role,
+
+        request.difficulty
+
+    )
+
+
+
+    return {
+
+        "questions":
+
+        questions
 
     }
