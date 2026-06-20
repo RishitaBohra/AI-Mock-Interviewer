@@ -2,6 +2,7 @@ from fastapi import FastAPI, UploadFile, File
 from pypdf import PdfReader
 from embeddings import get_embedding
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 from vector_store import search_chunks
 
@@ -18,6 +19,23 @@ clear_collection
 )
 
 app = FastAPI()
+app.add_middleware(
+
+    CORSMiddleware,
+
+    allow_origins=[
+
+        "http://localhost:5173"
+
+    ],
+
+    allow_credentials=True,
+
+    allow_methods=["*"],
+
+    allow_headers=["*"]
+
+)
 
 
 @app.get("/")
