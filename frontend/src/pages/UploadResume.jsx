@@ -1,8 +1,37 @@
 import { useState } from "react"
-import { uploadResume } from "../services/api"
+import {
+
+uploadResume,
+
+generateQuestions
+
+}
+
+from "../services/api"
 function UploadResume(){
 const [file,setFile] = useState(null)
 const [role,setRole] = useState("")
+const [difficulty,setDifficulty] = useState("")
+const [questions,setQuestions] = useState("")
+const handleGenerateQuestions = async () => {
+
+    const data = await generateQuestions(
+
+        role,
+
+        difficulty
+
+    )
+
+    console.log(data)
+
+    setQuestions(
+
+        data.questions
+
+    )
+
+}
 const handleUpload = async () => {
 
     const data = await uploadResume(file)
@@ -78,6 +107,56 @@ Selected Role:
 
 </p>
 
+<select
+
+value={difficulty}
+
+onChange={(e)=>{
+
+setDifficulty(
+
+e.target.value
+
+)
+
+}}
+
+>
+
+<option>
+
+Select Difficulty
+
+</option>
+
+<option>
+
+Easy
+
+</option>
+
+<option>
+
+Medium
+
+</option>
+
+<option>
+
+Hard
+
+</option>
+
+</select>
+
+<p>
+
+Selected Difficulty:
+
+{difficulty}
+
+</p>
+
 <input
 
 type="file"
@@ -94,6 +173,36 @@ setFile(e.target.files[0])
 Upload
 
 </button>
+<button
+
+onClick={handleGenerateQuestions}
+
+>
+
+Generate Questions
+
+</button>
+{
+
+questions &&
+
+<div>
+
+<h2>
+
+Interview Questions
+
+</h2>
+
+<pre>
+
+{questions}
+
+</pre>
+
+</div>
+
+}
 {
 
 file &&
@@ -105,6 +214,7 @@ Selected File:
 {file.name}
 
 </p>
+
 
 }
 
