@@ -64,3 +64,55 @@ Only return questions.
 
     )
     return response.text
+
+
+def evaluate_answer(
+
+    question,
+
+    answer
+
+):
+
+
+    prompt = f"""
+
+You are a technical interviewer.
+
+
+Question:
+
+{question}
+
+
+Candidate Answer:
+
+{answer}
+
+
+Evaluate the answer and provide:
+
+1. Score out of 10
+
+2. Correctness
+
+3. Missing Points
+
+4. Ideal Answer
+
+
+Keep the response concise.
+
+"""
+
+
+    response = client.models.generate_content(
+
+        model="gemini-2.0-flash",
+
+        contents=prompt
+
+    )
+
+
+    return response.text

@@ -2,12 +2,19 @@ from fastapi import FastAPI, UploadFile, File
 from pypdf import PdfReader
 from embeddings import get_embedding
 from pydantic import BaseModel
+
 from fastapi.middleware.cors import CORSMiddleware
 
 from vector_store import search_chunks
 
 from gemini_service import generate_questions
+from gemini_service import (
 
+    generate_questions,
+
+    evaluate_answer
+
+)
 
 
 from vector_store import (
@@ -134,7 +141,15 @@ class InterviewRequest(
 
     difficulty:str
 
+class EvaluationRequest(
 
+    BaseModel
+
+):
+
+    question:str
+
+    answer:str
 
 @app.post(
 
@@ -195,5 +210,38 @@ def interview(
         "questions":
 
         questions
+
+    }
+
+
+@app.post(
+
+    "/evaluate-answer"
+
+)
+
+def evaluate(
+
+    request:
+
+    EvaluationRequest
+
+):
+
+
+    result = evaluate_answer(
+
+        request.question,
+
+        request.answer
+
+    )
+
+
+    return {
+
+        "evaluation":
+
+        result
 
     }
