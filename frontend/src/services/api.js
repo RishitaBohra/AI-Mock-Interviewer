@@ -79,3 +79,49 @@ difficulty
 return response.json()
 
 }
+
+export const evaluateAnswer =
+
+async(
+
+question,
+
+answer
+
+)=>{
+
+
+const response =
+
+await fetch(
+
+"http://127.0.0.1:8000/evaluate-answer",
+
+{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":
+
+"application/json"
+
+},
+
+body:JSON.stringify({
+
+question,
+
+answer
+
+})
+
+}
+
+)
+
+
+return response.json()
+
+}

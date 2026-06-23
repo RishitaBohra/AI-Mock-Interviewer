@@ -3,7 +3,9 @@ import {
 
 uploadResume,
 
-generateQuestions
+generateQuestions,
+
+evaluateAnswer
 
 }
 
@@ -13,6 +15,8 @@ const [file,setFile] = useState(null)
 const [role,setRole] = useState("")
 const [difficulty,setDifficulty] = useState("")
 const [questions,setQuestions] = useState("")
+const [answer,setAnswer] = useState("")
+const [evaluation,setEvaluation] = useState("")
 const handleGenerateQuestions = async () => {
 
     const data = await generateQuestions(
@@ -28,6 +32,25 @@ const handleGenerateQuestions = async () => {
     setQuestions(
 
         data.questions
+
+    )
+
+}
+const handleEvaluate = async ()=>{
+
+    const data = await evaluateAnswer(
+
+        questions,
+
+        answer
+
+    )
+
+    console.log(data)
+
+    setEvaluation(
+
+        data.evaluation
 
     )
 
@@ -199,8 +222,40 @@ Interview Questions
 {questions}
 
 </pre>
+<textarea
 
+placeholder="Write your answer here..."
+
+rows="8"
+
+cols="60"
+
+value={answer}
+
+onChange={(e)=>{
+
+setAnswer(
+
+e.target.value
+
+)
+
+}}
+
+>
+
+</textarea>
+<button
+
+onClick={handleEvaluate}
+
+>
+
+Evaluate Answer
+
+</button>
 </div>
+
 
 }
 {
