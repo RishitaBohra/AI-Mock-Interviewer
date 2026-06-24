@@ -34,26 +34,26 @@ const handleGenerateQuestions = async () => {
         data.questions
 
     )
+    setEvaluation("")
+setAnswer("")
 
 }
-const handleEvaluate = async ()=>{
+const handleEvaluate = async () => {
+  try {
+    const data = await evaluateAnswer(questions, answer)
 
-    const data = await evaluateAnswer(
-
-        questions,
-
-        answer
-
-    )
-
-    console.log(data)
+    if (data.evaluation) {
+      setEvaluation(data.evaluation)
+    } else {
+      setEvaluation("Could not evaluate the answer right now. Please try again later.")
+    }
+  } catch (error) {
+    console.error(error)
 
     setEvaluation(
-
-        data.evaluation
-
+      "Gemini evaluation is temporarily unavailable because the API quota has been reached. Please try again later."
     )
-
+  }
 }
 const handleUpload = async () => {
 
@@ -64,217 +64,122 @@ const handleUpload = async () => {
     alert("Resume Uploaded Successfully")
 
 }
-return(
-
-<div>
-
-<h1>AI Mock Interviewer</h1>
-<select
-
-value={role}
-
-onChange={(e)=>{
-
-setRole(
-
-e.target.value
-
-)
-
-}}
-
->
-
-<option>
-
-Select Role
-
-</option>
-
-<option>
-
-SDE Intern
-
-</option>
-
-<option>
-
-Frontend Developer
-
-</option>
-
-<option>
-
-Flutter Developer
-
-</option>
-
-<option>
-
-ML Engineer
-
-</option>
-
-<option>
-
-Data Scientist
-
-</option>
-
-</select>
-<p>
-
-Selected Role:
-
-{role}
-
-</p>
-
-<select
-
-value={difficulty}
-
-onChange={(e)=>{
-
-setDifficulty(
-
-e.target.value
-
-)
-
-}}
-
->
-
-<option>
-
-Select Difficulty
-
-</option>
-
-<option>
-
-Easy
-
-</option>
-
-<option>
-
-Medium
-
-</option>
-
-<option>
-
-Hard
-
-</option>
-
-</select>
-
-<p>
-
-Selected Difficulty:
-
-{difficulty}
-
-</p>
-
-<input
-
-type="file"
-
-onChange={(e)=>{
-
-setFile(e.target.files[0])
-
-}}
-
-/>
-<button onClick={handleUpload}>
-
-Upload
-
-</button>
-<button
-
-onClick={handleGenerateQuestions}
-
->
-
-Generate Questions
-
-</button>
-{
-
-questions &&
-
-<div>
-
-<h2>
-
-Interview Questions
-
-</h2>
-
-<pre>
-
-{questions}
-
-</pre>
-<textarea
-
-placeholder="Write your answer here..."
-
-rows="8"
-
-cols="60"
-
-value={answer}
-
-onChange={(e)=>{
-
-setAnswer(
-
-e.target.value
-
-)
-
-}}
-
->
-
-</textarea>
-<button
-
-onClick={handleEvaluate}
-
->
-
-Evaluate Answer
-
-</button>
+return (
+  <div className="app-shell">
+    <header className="topbar">
+      <div className="brand">
+        <span className="brand-icon">◈</span>
+        <span>MockMate</span>
+      </div>
+
+      <div className="live-status">
+        <span className="status-dot"></span>
+        Live Interview Practice
+      </div>
+
+      <div className="session-time">⏱ 00:00:00</div>
+    </header>
+
+    <main className="interview-layout">
+  <div className="sidebar-panel">
+  <p className="section-label">RESUME</p>
+
+  <div className="resume-card">
+    <span className="file-icon">▣</span>
+
+    <div>
+      <strong>{file ? file.name : "No resume uploaded"}</strong>
+      <p>{file ? "Resume ready" : "Choose a PDF to begin"}</p>
+    </div>
+  </div>
+
+  <label className="file-picker">
+  <span>Choose Resume PDF</span>
+
+  <input
+    type="file"
+    accept=".pdf"
+    onChange={(e) => setFile(e.target.files[0])}
+  />
+</label>
+
+  <button onClick={handleUpload}>
+    Upload Resume
+  </button>
+
+  <p className="section-label">INTERVIEW SETUP</p>
+
+  <label>Role</label>
+  <select
+    value={role}
+    onChange={(e) => setRole(e.target.value)}
+  >
+    <option value="SDE Intern">SDE Intern</option>
+    <option value="Frontend Developer">Frontend Developer</option>
+    <option value="Flutter Developer">Flutter Developer</option>
+  </select>
+
+  <label>Difficulty</label>
+  <select
+    value={difficulty}
+    onChange={(e) => setDifficulty(e.target.value)}
+  >
+    <option value="Easy">Easy</option>
+    <option value="Medium">Medium</option>
+    <option value="Hard">Hard</option>
+  </select>
+
+  <button onClick={handleGenerateQuestions}>
+    Generate Questions ✨
+  </button>
 </div>
 
+<div className="question-panel">
+  <p className="section-label">QUESTION</p>
 
-}
-{
+  <h2>Question 1</h2>
 
-file &&
+  {questions ? (
+    <pre className="question-text">{questions}</pre>
+  ) : (
+   <div className="start-card">
+  <div className="start-icon">◈</div>
 
-<p>
+  <h3>Your interview is ready to begin</h3>
 
-Selected File:
-
-{file.name}
-
-</p>
-
-
-}
-
+  <p>
+    Upload your resume, choose a role and difficulty,
+    then generate your first question.
+  </p>
+</div>
+  )}
 </div>
 
+<div className="answer-panel">
+  <p className="section-label">YOUR ANSWER</p>
+
+  <textarea
+    placeholder="Write your detailed answer here..."
+    value={answer}
+    onChange={(e) => setAnswer(e.target.value)}
+  />
+
+  <button
+    onClick={handleEvaluate}
+    disabled={!answer.trim()}
+  >
+    Evaluate Response →
+  </button>
+
+  {evaluation && (
+    <div className="evaluation-box">
+      <p className="section-label">EVALUATION</p>
+      <pre>{evaluation}</pre>
+    </div>
+  )}
+</div>
+    </main>
+  </div>
 )
 
 }
