@@ -69,7 +69,7 @@ return (
     <header className="topbar">
       <div className="brand">
         <span className="brand-icon">◈</span>
-        <span>MockMate</span>
+        <span>Interviewer</span>
       </div>
 
       <div className="live-status">
@@ -84,14 +84,14 @@ return (
   <div className="sidebar-panel">
   <p className="section-label">RESUME</p>
 
-  <div className="resume-card">
-    <span className="file-icon">▣</span>
+  <div className={`resume-card ${file ? "resume-ready" : ""}`}>
+  <span className="file-icon">{file ? "✓" : "▣"}</span>
 
-    <div>
-      <strong>{file ? file.name : "No resume uploaded"}</strong>
-      <p>{file ? "Resume ready" : "Choose a PDF to begin"}</p>
-    </div>
+  <div>
+    <strong>{file ? file.name : "No resume selected"}</strong>
+    <p>{file ? "Ready to upload" : "Choose a PDF to begin"}</p>
   </div>
+</div>
 
   <label className="file-picker">
   <span>Choose Resume PDF</span>
