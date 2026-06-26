@@ -17,6 +17,8 @@ const [difficulty,setDifficulty] = useState("")
 const [questions,setQuestions] = useState("")
 const [answer,setAnswer] = useState("")
 const [evaluation,setEvaluation] = useState("")
+const [questionList, setQuestionList] = useState([])
+const [currentQuestion, setCurrentQuestion] = useState(0)
 const handleGenerateQuestions = async () => {
 
     const data = await generateQuestions(
@@ -29,11 +31,15 @@ const handleGenerateQuestions = async () => {
 
     console.log(data)
 
-    setQuestions(
+    setQuestions(data.questions)
 
-        data.questions
+const parsedQuestions = data.questions
+  .split("\n")
+  .filter((q) => q.trim() !== "")
 
-    )
+setQuestionList(parsedQuestions)
+
+setCurrentQuestion(0)
     setEvaluation("")
 setAnswer("")
 
@@ -139,9 +145,17 @@ return (
 
   <h2>Question 1</h2>
 
-  {questions ? (
-    <pre className="question-text">{questions}</pre>
-  ) : (
+  {questionList.length > 0 ? (
+  <>
+    <h2>
+      Question {currentQuestion + 1} of {questionList.length}
+    </h2>
+
+    <pre className="question-text">
+      {questionList[currentQuestion]}
+    </pre>
+  </>
+) : (
    <div className="start-card">
   <div className="start-icon">◈</div>
 
