@@ -143,7 +143,7 @@ return (
 <div className="question-panel">
   <p className="section-label">QUESTION</p>
 
-  <h2>Question 1</h2>
+
 
   {questionList.length > 0 ? (
   <>
@@ -154,6 +154,33 @@ return (
     <pre className="question-text">
       {questionList[currentQuestion]}
     </pre>
+    <div className="question-navigation">
+
+  <button
+    className="nav-button"
+    disabled={currentQuestion === 0}
+    onClick={()=>{
+      setCurrentQuestion(currentQuestion-1)
+      setAnswer("")
+      setEvaluation("")
+    }}
+  >
+    ← Previous
+  </button>
+
+  <button
+    className="nav-button"
+    disabled={currentQuestion===questionList.length-1}
+    onClick={()=>{
+      setCurrentQuestion(currentQuestion+1)
+      setAnswer("")
+      setEvaluation("")
+    }}
+  >
+    Next →
+  </button>
+
+</div>
   </>
 ) : (
    <div className="start-card">
