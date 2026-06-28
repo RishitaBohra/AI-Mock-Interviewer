@@ -318,3 +318,21 @@ button {
     cursor:not-allowed;
     transform:none;
 }
+.progress-container{
+    display:flex;
+    gap:12px;
+    margin:20px 0 30px;
+}
+
+.progress-dot{
+    flex:1;
+    height:8px;
+    border-radius:999px;
+    background:#28334f;
+    transition:all .3s ease;
+}
+
+.active-dot{
+    background:#8b5cf6;
+    box-shadow:0 0 10px rgba(139,92,246,.6);
+}
