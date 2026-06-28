@@ -150,6 +150,16 @@ return (
     <h2>
       Question {currentQuestion + 1} of {questionList.length}
     </h2>
+    <div className="progress-container">
+  {questionList.map((_, index) => (
+    <div
+      key={index}
+      className={`progress-dot ${
+        index <= currentQuestion ? "active-dot" : ""
+      }`}
+    />
+  ))}
+</div>
 
     <pre className="question-text">
       {questionList[currentQuestion]}
