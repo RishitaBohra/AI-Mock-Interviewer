@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import {
 
 uploadResume,
@@ -19,6 +19,21 @@ const [answer,setAnswer] = useState("")
 const [evaluation,setEvaluation] = useState("")
 const [questionList, setQuestionList] = useState([])
 const [currentQuestion, setCurrentQuestion] = useState(0)
+const [seconds, setSeconds] = useState(0)
+const [interviewStarted, setInterviewStarted] = useState(false)
+useEffect(() => {
+
+    if (!interviewStarted) return
+
+    const timer = setInterval(() => {
+
+        setSeconds((prev) => prev + 1)
+
+    }, 1000)
+
+    return () => clearInterval(timer)
+
+}, [interviewStarted])
 const handleGenerateQuestions = async () => {
 
     const data = await generateQuestions(
@@ -40,6 +55,9 @@ const parsedQuestions = data.questions
 setQuestionList(parsedQuestions)
 
 setCurrentQuestion(0)
+setSeconds(0)
+
+setInterviewStarted(true)
     setEvaluation("")
 setAnswer("")
 
@@ -83,7 +101,12 @@ return (
         Live Interview Practice
       </div>
 
-      <div className="session-time">⏱ 00:00:00</div>
+     <div className="session-time">
+  ⏱{" "}
+  {new Date(seconds * 1000)
+    .toISOString()
+    .substring(11, 19)}
+</div>
     </header>
 
     <main className="interview-layout">
