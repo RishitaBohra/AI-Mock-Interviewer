@@ -1,70 +1,221 @@
-# AI Mock Interviewer
+# Interviewer AI 🎤🤖
 
-AI-powered Mock Interview platform built using React, FastAPI, Gemini API, ChromaDB and RAG.
+An AI-powered mock interview platform that generates personalized interview questions from an uploaded resume using Retrieval-Augmented Generation (RAG). The application evaluates candidate responses using Google's Gemini API and provides real-time interview practice.
 
-## Features
+## 🚀 Live Demo
 
-- Resume Upload (PDF)
-- PDF Text Extraction
-- Resume Chunking
-- Embeddings using Sentence Transformers
-- ChromaDB Vector Database
-- Semantic Search
-- Personalized Interview Questions
-- Role Selection
-- Difficulty Selection
+**Frontend:** https://ai-mock-interviewer-woad-delta.vercel.app/
 
-## Tech Stack
+
+
+---
+
+## ✨ Features
+
+- 📄 Upload Resume (PDF)
+- 🤖 AI-generated interview questions based on your resume
+- 🔍 Retrieval-Augmented Generation (RAG)
+- 🧠 Semantic Search using ChromaDB
+- 📚 Resume Chunking & Vector Embeddings
+- 🎯 Role-based interview generation
+- 📈 Difficulty selection (Easy / Medium / Hard)
+- ⏱ Live interview timer
+- 📝 Answer evaluation using Gemini AI
+- 💡 AI-generated feedback and improvement suggestions
+- 🌙 Modern responsive UI
+
+---
+
+## 🏗 Tech Stack
 
 ### Frontend
-
-- React
+- React.js
 - Vite
+- Axios
+- CSS
+
+### Backend
+- FastAPI
+- Python
+- Gemini API
+- Sentence Transformers
+- ChromaDB
+- PyPDF
+
+### AI / RAG
+- Resume Parsing
+- Text Chunking
+- Vector Embeddings
+- Semantic Search
+- Retrieval-Augmented Generation (RAG)
+
+---
+
+## 📂 Project Structure
+
+```
+AI-Mock-Interviewer
+│
+├── frontend
+│   ├── src
+│   ├── components
+│   ├── pages
+│   └── services
+│
+├── backend
+│   ├── app.py
+│   ├── embeddings.py
+│   ├── vector_store.py
+│   ├── gemini_service.py
+│   ├── chroma_db
+│   └── requirements.txt
+│
+└── README.md
+```
+
+---
+
+## ⚙️ How It Works
+
+1. Upload Resume PDF
+2. Extract text from resume
+3. Split text into semantic chunks
+4. Generate embeddings using Sentence Transformers
+5. Store embeddings in ChromaDB
+6. Retrieve relevant resume context
+7. Generate interview questions using Gemini API
+8. Evaluate candidate responses
+9. Display AI-generated feedback
+
+---
+
+## 🧠 AI Pipeline
+
+```
+Resume PDF
+      │
+      ▼
+Text Extraction
+      │
+      ▼
+Chunking
+      │
+      ▼
+Sentence Transformer Embeddings
+      │
+      ▼
+ChromaDB Vector Store
+      │
+      ▼
+Semantic Retrieval
+      │
+      ▼
+Gemini API
+      │
+      ▼
+Interview Questions + Evaluation
+```
+
+---
+
+## 🛠 Installation
+
+### Clone Repository
+
+```bash
+git clone https://github.com/RishitaBohra/AI-Mock-Interviewer.git
+
+cd AI-Mock-Interviewer
+```
 
 ### Backend
 
-- FastAPI
-- PyPDF
-- Sentence Transformers
-- ChromaDB
-- Gemini API
+```bash
+cd backend
 
-## Architecture
+python -m venv venv
 
-Resume PDF
+source venv/bin/activate
+```
 
-↓
+Install dependencies
 
-Text Extraction
+```bash
+pip install -r requirements.txt
+```
 
-↓
+Run FastAPI
 
-Chunking
+```bash
+uvicorn app:app --reload
+```
 
-↓
+---
 
-Embeddings
+### Frontend
 
-↓
+```bash
+cd frontend
 
-ChromaDB
+npm install
 
-↓
+npm run dev
+```
 
-Semantic Search
+---
 
-↓
+## 🔑 Environment Variables
 
-Gemini
+Create a `.env` inside the backend directory.
 
-↓
+```env
+GEMINI_API_KEY=YOUR_GEMINI_API_KEY
+```
 
-Interview Questions
+---
 
-## Future Enhancements
+## 📌 API Endpoints
 
-- Answer Evaluation
-- Weak Area Detection
-- Personalized Roadmap
-- Voice Interviews
-- Video Interviews
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| POST | `/upload-resume` | Upload Resume |
+| POST | `/generate-questions` | Generate Interview Questions |
+| POST | `/evaluate-answer` | Evaluate Candidate Response |
+
+---
+
+## 📸 Screenshots
+
+- Resume Upload
+- AI Question Generation
+- Live Interview
+- AI Evaluation
+
+*(Add screenshots here)*
+
+---
+
+## 🎯 Future Improvements
+
+- 🎙 Voice-based interviews
+- 📊 Interview analytics dashboard
+- 📄 Downloadable interview reports
+- 🌍 Multi-language support
+- 🔐 User authentication
+- ☁ Persistent cloud vector database
+
+---
+
+## 👩‍💻 Author
+
+**Rishita Bohra**
+
+GitHub: https://github.com/RishitaBohra
+
+LinkedIn: *(Add your LinkedIn profile)*
+
+---
+
+## ⭐ If you like this project
+
+Give this repository a ⭐ on GitHub!
