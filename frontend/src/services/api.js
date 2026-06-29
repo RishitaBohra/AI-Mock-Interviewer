@@ -1,4 +1,4 @@
-const BASE_URL = "http://127.0.0.1:8000"
+const BASE_URL = "https://interviewer-backend-mnq2.onrender.com";
 
 
 export const uploadResume = async (file) => {
