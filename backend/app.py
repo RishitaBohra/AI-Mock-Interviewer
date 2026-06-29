@@ -1,20 +1,16 @@
 from fastapi import FastAPI, UploadFile, File
 from pypdf import PdfReader
-from embeddings import get_embedding
+from gemini_service import (
+    generate_questions,
+    evaluate_answer,
+    get_embedding
+)
 from pydantic import BaseModel
 
 from fastapi.middleware.cors import CORSMiddleware
 
 from vector_store import search_chunks
 
-from gemini_service import generate_questions
-from gemini_service import (
-
-    generate_questions,
-
-    evaluate_answer
-
-)
 
 
 from vector_store import (

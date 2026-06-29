@@ -4,8 +4,5 @@ python-dotenv
 python-multipart
 pypdf
 numpy
-
-sentence-transformers
 chromadb
-
 google-genai
