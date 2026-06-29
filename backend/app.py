@@ -86,17 +86,7 @@ async def upload_resume(
     chunks = chunk_text(text)
 
 
-    embeddings = []
-
-    for chunk in chunks:
-
-        embedding = get_embedding(chunk)
-
-        embeddings.append(
-
-            embedding.tolist()
-
-        )
+    embeddings = [get_embedding(chunk) for chunk in chunks]
 
     clear_collection()
     store_chunks(
@@ -157,13 +147,7 @@ def interview(
 
     query = request.role
 
-
-    query_embedding = get_embedding(
-
-        query
-
-    ).tolist()
-
+    query_embedding = get_embedding(query)
 
 
     results = search_chunks(
