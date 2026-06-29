@@ -1,29 +1,15 @@
 from sentence_transformers import SentenceTransformer
 
+model = None
 
-model = SentenceTransformer(
 
-    "all-MiniLM-L6-v2"
-
-)
+def get_model():
+    global model
+    if model is None:
+        model = SentenceTransformer("all-MiniLM-L6-v2")
+    return model
 
 
 def get_embedding(text):
-
-    embedding = model.encode(text)
-
-    return embedding
-
-embedding = get_embedding(
-
-"Flutter Widgets"
-
-)
-
-print(embedding)
-
-print(
-
-len(embedding)
-
-)
+    model = get_model()
+    return model.encode(text)
