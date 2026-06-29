@@ -14,7 +14,7 @@ client = genai.Client(
 # -----------------------------
 def get_embedding(text):
     response = client.models.embed_content(
-        model="text-embedding-004",
+        model="gemini-embedding-001",
         contents=text
     )
 
