@@ -43,6 +43,13 @@ def home():
 
     }
 
+@app.get("/health")
+def health_check():
+    return {
+        "status": "healthy",
+        "service": "AI Mock Interviewer Backend"
+    }
+
 def chunk_text(
 
 text,
