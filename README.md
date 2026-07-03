@@ -176,11 +176,13 @@ GEMINI_API_KEY=YOUR_GEMINI_API_KEY
 
 ## 📌 API Endpoints
 
-| Method | Endpoint | Description |
-|---------|----------|-------------|
-| POST | `/upload-resume` | Upload Resume |
-| POST | `/generate-questions` | Generate Interview Questions |
-| POST | `/evaluate-answer` | Evaluate Candidate Response |
+## API Endpoints
+
+- GET / - Backend status
+- GET /health - Health check
+- POST /upload - Upload resume
+- POST /generate-questions - Generate interview questions
+- POST /evaluate-answer - Evaluate answer
 
 ---
 
