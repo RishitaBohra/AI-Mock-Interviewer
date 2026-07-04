@@ -79,6 +79,19 @@ const handleEvaluate = async () => {
     )
   }
 }
+
+
+const handleCopyQuestion = async () => {
+  try {
+    await navigator.clipboard.writeText(
+      questionList[currentQuestion]
+    );
+
+    alert("Question copied to clipboard!");
+  } catch (err) {
+    alert("Failed to copy question.");
+  }
+};
 const handleUpload = async () => {
 
     const data = await uploadResume(file)
@@ -184,9 +197,20 @@ return (
   ))}
 </div>
 
-    <pre className="question-text">
-      {questionList[currentQuestion]}
-    </pre>
+  <div className="question-header">
+  <h3>Interview Question</h3>
+
+  <button
+    className="copy-button"
+    onClick={handleCopyQuestion}
+  >
+    📋 Copy
+  </button>
+</div>
+
+<pre className="question-text">
+  {questionList[currentQuestion]}
+</pre>
     <div className="question-navigation">
 
   <button

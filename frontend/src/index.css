@@ -336,3 +336,24 @@ button {
     background:#8b5cf6;
     box-shadow:0 0 10px rgba(139,92,246,.6);
 }
+
+.question-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+}
+
+.copy-button{
+  padding:8px 14px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  background:#2563eb;
+  color:white;
+  transition:.2s;
+}
+
+.copy-button:hover{
+  background:#1d4ed8;
+}
