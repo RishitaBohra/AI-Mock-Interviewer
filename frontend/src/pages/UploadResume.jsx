@@ -80,6 +80,18 @@ const handleEvaluate = async () => {
   }
 }
 
+const handleResetInterview = () => {
+  setFile(null);
+  setRole("");
+  setDifficulty("");
+  setQuestions("");
+  setQuestionList([]);
+  setCurrentQuestion(0);
+  setAnswer("");
+  setEvaluation("");
+  setSeconds(0);
+  setInterviewStarted(false);
+};
 
 const handleCopyQuestion = async () => {
   try {
@@ -175,6 +187,12 @@ return (
     Generate Questions ✨
   </button>
 </div>
+<button
+  className="reset-button"
+  onClick={handleResetInterview}
+>
+  🔄 Reset Interview
+</button>
 
 <div className="question-panel">
   <p className="section-label">QUESTION</p>
