@@ -21,6 +21,7 @@ const [questionList, setQuestionList] = useState([])
 const [currentQuestion, setCurrentQuestion] = useState(0)
 const [seconds, setSeconds] = useState(0)
 const [interviewStarted, setInterviewStarted] = useState(false)
+const [interviewCompleted, setInterviewCompleted] = useState(false);
 useEffect(() => {
 
     if (!interviewStarted) return
@@ -55,6 +56,7 @@ const parsedQuestions = data.questions
 setQuestionList(parsedQuestions)
 
 setCurrentQuestion(0)
+setInterviewCompleted(false)
 setSeconds(0)
 
 setInterviewStarted(true)
@@ -199,7 +201,32 @@ return (
 
 
 
-  {questionList.length > 0 ? (
+  {interviewCompleted ? (
+
+<div className="completion-card">
+
+  <div className="completion-icon">🎉</div>
+
+  <h2>Interview Completed!</h2>
+
+  <p>
+    Congratulations! You have successfully completed your mock interview.
+  </p>
+
+  <div className="completion-stats">
+    <p><strong>Questions Attempted:</strong> {questionList.length}</p>
+
+    <p>
+      <strong>Time Taken:</strong>{" "}
+      {new Date(seconds * 1000)
+        .toISOString()
+        .substring(11, 19)}
+    </p>
+  </div>
+
+</div>
+
+) : questionList.length > 0 ? (
   <>
     <h2>
       Question {currentQuestion + 1} of {questionList.length}
@@ -246,11 +273,15 @@ return (
   <button
     className="nav-button"
     disabled={currentQuestion===questionList.length-1}
-    onClick={()=>{
-      setCurrentQuestion(currentQuestion+1)
-      setAnswer("")
-      setEvaluation("")
-    }}
+    onClick={() => {
+  if (currentQuestion === questionList.length - 1) {
+    setInterviewCompleted(true);
+  } else {
+    setCurrentQuestion(currentQuestion + 1);
+    setAnswer("");
+    setEvaluation("");
+  }
+}}
   >
     Next →
   </button>
