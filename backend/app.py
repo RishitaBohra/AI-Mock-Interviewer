@@ -21,6 +21,9 @@ clear_collection
 
 )
 
+from models import UserSignup
+from auth import hash_password
+from database import users_collection
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
@@ -224,4 +227,30 @@ def evaluate(
 
         result
 
+    }
+
+@app.post("/signup")
+def signup(user: UserSignup):
+
+    existing_user = users_collection.find_one(
+        {"email": user.email}
+    )
+
+    if existing_user:
+        return {
+            "success": False,
+            "message": "Email already registered."
+        }
+
+    hashed_password = hash_password(user.password)
+
+    users_collection.insert_one({
+        "name": user.name,
+        "email": user.email,
+        "password": hashed_password
+    })
+
+    return {
+        "success": True,
+        "message": "User registered successfully."
     }
