@@ -21,8 +21,11 @@ clear_collection
 
 )
 
-from models import UserSignup
-from auth import hash_password
+from models import UserSignup, UserLogin
+from auth import (
+    hash_password,
+    verify_password
+)
 from database import users_collection
 app = FastAPI()
 app.add_middleware(
@@ -253,4 +256,35 @@ def signup(user: UserSignup):
     return {
         "success": True,
         "message": "User registered successfully."
+    }
+
+@app.post("/login")
+def login(user: UserLogin):
+
+    existing_user = users_collection.find_one(
+        {
+            "email": user.email
+        }
+    )
+
+    if not existing_user:
+        return {
+            "success": False,
+            "message": "Invalid email or password."
+        }
+
+    if not verify_password(
+        user.password,
+        existing_user["password"]
+    ):
+        return {
+            "success": False,
+            "message": "Invalid email or password."
+        }
+
+    return {
+        "success": True,
+        "message": "Login successful.",
+        "name": existing_user["name"],
+        "email": existing_user["email"]
     }
