@@ -24,7 +24,8 @@ clear_collection
 from models import UserSignup, UserLogin
 from auth import (
     hash_password,
-    verify_password
+    verify_password,
+    create_access_token
 )
 from database import users_collection
 app = FastAPI()
@@ -282,9 +283,18 @@ def login(user: UserLogin):
             "message": "Invalid email or password."
         }
 
+    token = create_access_token(
+    {
+        "sub": existing_user["email"]
+    }
+)
+
     return {
-        "success": True,
-        "message": "Login successful.",
+    "success": True,
+    "message": "Login successful.",
+    "token": token,
+    "user": {
         "name": existing_user["name"],
         "email": existing_user["email"]
     }
+}
