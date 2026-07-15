@@ -10,7 +10,8 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
 from vector_store import search_chunks
-
+from dependencies import get_current_user
+from fastapi import Depends
 
 
 from vector_store import (
@@ -144,18 +145,10 @@ class EvaluationRequest(
 
     answer:str
 
-@app.post(
-
-    "/generate-questions"
-
-)
-
+@app.post("/generate-questions")
 def interview(
-
-    request:
-
-    InterviewRequest
-
+    request: InterviewRequest,
+    current_user: str = Depends(get_current_user)
 ):
 
 
@@ -201,18 +194,10 @@ def interview(
     }
 
 
-@app.post(
-
-    "/evaluate-answer"
-
-)
-
+@app.post("/evaluate-answer")
 def evaluate(
-
-    request:
-
-    EvaluationRequest
-
+    request: EvaluationRequest,
+    current_user: str = Depends(get_current_user)
 ):
 
 
