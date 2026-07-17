@@ -1,3 +1,4 @@
+import { getToken } from "./auth";
 const BASE_URL = "https://interviewer-backend-mnq2.onrender.com";
 
 export const uploadResume = async (file) => {
@@ -17,6 +18,7 @@ export const generateQuestions = async (role, difficulty) => {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${getToken()}`,
         },
         body: JSON.stringify({
             role,
@@ -32,6 +34,7 @@ export const evaluateAnswer = async (question, answer) => {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${getToken()}`,
         },
         body: JSON.stringify({
             question,
