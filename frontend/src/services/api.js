@@ -44,3 +44,32 @@ export const evaluateAnswer = async (question, answer) => {
 
     return response.json();
 };
+export const loginUser = async (email, password) => {
+    const response = await fetch(`${BASE_URL}/login`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            email,
+            password,
+        }),
+    });
+
+    return response.json();
+};
+export const signupUser = async (name, email, password) => {
+    const response = await fetch(`${BASE_URL}/signup`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            name,
+            email,
+            password,
+        }),
+    });
+
+    return await response.json();
+};
