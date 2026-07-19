@@ -9,7 +9,9 @@ function App() {
     const [showSignup, setShowSignup] = useState(false);
 
     if (loggedIn) {
-        return <UploadResume />;
+        return<UploadResume
+    onLogout={() => setLoggedIn(false)}
+/>
     }
 
     return showSignup ? (

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { logout } from "../services/auth";
 import {
 
 uploadResume,
@@ -9,8 +10,9 @@ evaluateAnswer
 
 }
 
+
 from "../services/api"
-function UploadResume(){
+function UploadResume({ onLogout }) {
 const [file,setFile] = useState(null)
 const [role,setRole] = useState("")
 const [difficulty,setDifficulty] = useState("")
@@ -114,27 +116,41 @@ const handleUpload = async () => {
 
     alert("Resume Uploaded Successfully")
 
+  
 }
+const handleLogout = () => {
+    logout();
+    onLogout();
+};
 return (
   <div className="app-shell">
     <header className="topbar">
-      <div className="brand">
-        <span className="brand-icon">◈</span>
-        <span>Interviewer</span>
-      </div>
+  <div className="brand">
+    <span className="brand-icon">◈</span>
+    <span>Interviewer</span>
+  </div>
 
-      <div className="live-status">
-        <span className="status-dot"></span>
-        Live Interview Practice
-      </div>
+  <div className="live-status">
+    <span className="status-dot"></span>
+    Live Interview Practice
+  </div>
 
-     <div className="session-time">
-  ⏱{" "}
-  {new Date(seconds * 1000)
-    .toISOString()
-    .substring(11, 19)}
-</div>
-    </header>
+  <div className="header-right">
+    <div className="session-time">
+      ⏱{" "}
+      {new Date(seconds * 1000)
+        .toISOString()
+        .substring(11, 19)}
+    </div>
+
+    <button
+      className="logout-btn"
+      onClick={handleLogout}
+    >
+      Logout
+    </button>
+  </div>
+</header>
 
     <main className="interview-layout">
   <div className="sidebar-panel">
