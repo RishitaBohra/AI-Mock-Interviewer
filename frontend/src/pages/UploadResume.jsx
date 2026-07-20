@@ -24,6 +24,7 @@ const [currentQuestion, setCurrentQuestion] = useState(0)
 const [seconds, setSeconds] = useState(0)
 const [interviewStarted, setInterviewStarted] = useState(false)
 const [interviewCompleted, setInterviewCompleted] = useState(false);
+const [responses, setResponses] = useState([]);
 useEffect(() => {
 
     if (!interviewStarted) return
@@ -58,6 +59,8 @@ const parsedQuestions = data.questions
 setQuestionList(parsedQuestions)
 
 setCurrentQuestion(0)
+setResponses([]);
+
 setInterviewCompleted(false)
 setSeconds(0)
 
@@ -71,10 +74,30 @@ const handleEvaluate = async () => {
     const data = await evaluateAnswer(questions, answer)
 
     if (data.evaluation) {
-      setEvaluation(data.evaluation)
-    } else {
-      setEvaluation("Could not evaluate the answer right now. Please try again later.")
-    }
+
+  setEvaluation(data.evaluation);
+
+  const currentResponse = {
+    question: questionList[currentQuestion],
+    answer: answer,
+    evaluation: data.evaluation,
+  };
+
+  setResponses((prev) => {
+  const updated = [...prev];
+
+  updated[currentQuestion] = currentResponse;
+
+  return updated;
+});
+
+} else {
+
+  setEvaluation(
+    "Could not evaluate the answer right now. Please try again later."
+  );
+
+}
   } catch (error) {
     console.error(error)
 
@@ -95,6 +118,7 @@ const handleResetInterview = () => {
   setEvaluation("");
   setSeconds(0);
   setInterviewStarted(false);
+  setResponses([]);
 };
 
 const handleCopyQuestion = async () => {
