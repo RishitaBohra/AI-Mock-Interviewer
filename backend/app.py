@@ -22,13 +22,20 @@ clear_collection
 
 )
 
-from models import UserSignup, UserLogin
+from models import (
+    UserSignup,
+    UserLogin,
+    InterviewHistory,
+)
 from auth import (
     hash_password,
     verify_password,
     create_access_token
 )
-from database import users_collection
+from database import (
+    users_collection,
+    interviews_collection,
+)
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
@@ -216,6 +223,33 @@ def evaluate(
 
         result
 
+    }
+
+from datetime import datetime
+
+@app.post("/save-interview")
+def save_interview(
+    interview: InterviewHistory,
+    current_user: str = Depends(get_current_user)
+):
+
+    interview_data = {
+        "email": current_user,
+        "role": interview.role,
+        "difficulty": interview.difficulty,
+        "duration": interview.duration,
+        "responses": [
+            response.model_dump()
+            for response in interview.responses
+        ],
+        "created_at": datetime.utcnow()
+    }
+
+    interviews_collection.insert_one(interview_data)
+
+    return {
+        "success": True,
+        "message": "Interview saved successfully."
     }
 
 @app.post("/signup")

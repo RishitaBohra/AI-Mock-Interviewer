@@ -44,6 +44,34 @@ export const evaluateAnswer = async (question, answer) => {
 
     return response.json();
 };
+export const saveInterview = async (
+  role,
+  difficulty,
+  duration,
+  responses
+) => {
+
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(
+    `${BASE_URL}/save-interview`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        role,
+        difficulty,
+        duration,
+        responses,
+      }),
+    }
+  );
+
+  return response.json();
+};
 export const loginUser = async (email, password) => {
     const response = await fetch(`${BASE_URL}/login`, {
         method: "POST",

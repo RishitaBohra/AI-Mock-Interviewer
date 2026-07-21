@@ -25,9 +25,7 @@ class InterviewResponse(BaseModel):
 
 
 class InterviewHistory(BaseModel):
-    email: EmailStr
     role: str
     difficulty: str
     duration: int
-    created_at: datetime
     responses: List[InterviewResponse]

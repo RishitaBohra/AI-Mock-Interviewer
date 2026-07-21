@@ -1,17 +1,12 @@
 import { useEffect, useState } from "react"
 import { logout } from "../services/auth";
 import {
+  uploadResume,
+  generateQuestions,
+  evaluateAnswer,
+  saveInterview
+} from "../services/api";
 
-uploadResume,
-
-generateQuestions,
-
-evaluateAnswer
-
-}
-
-
-from "../services/api"
 function UploadResume({ onLogout }) {
 const [file,setFile] = useState(null)
 const [role,setRole] = useState("")
@@ -38,6 +33,28 @@ useEffect(() => {
     return () => clearInterval(timer)
 
 }, [interviewStarted])
+
+useEffect(() => {
+  if (!interviewCompleted) return;
+
+  const save = async () => {
+    try {
+      const data = await saveInterview(
+        role,
+        difficulty,
+        seconds,
+        responses
+      );
+
+      console.log(data);
+    } catch (error) {
+      console.error("Failed to save interview:", error);
+    }
+  };
+
+  save();
+
+}, [interviewCompleted]);
 const handleGenerateQuestions = async () => {
 
     const data = await generateQuestions(
@@ -311,20 +328,21 @@ return (
   </button>
 
   <button
-    className="nav-button"
-    disabled={currentQuestion===questionList.length-1}
-    onClick={() => {
-  if (currentQuestion === questionList.length - 1) {
-    setInterviewCompleted(true);
-  } else {
-    setCurrentQuestion(currentQuestion + 1);
-    setAnswer("");
-    setEvaluation("");
-  }
-}}
-  >
-    Next →
-  </button>
+  className="nav-button"
+  onClick={() => {
+    if (currentQuestion === questionList.length - 1) {
+      setInterviewCompleted(true);
+    } else {
+      setCurrentQuestion(currentQuestion + 1);
+      setAnswer("");
+      setEvaluation("");
+    }
+  }}
+>
+  {currentQuestion === questionList.length - 1
+    ? "Finish Interview"
+    : "Next →"}
+</button>
 
 </div>
   </>
