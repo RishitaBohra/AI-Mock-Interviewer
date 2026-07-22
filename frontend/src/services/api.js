@@ -72,6 +72,20 @@ export const saveInterview = async (
 
   return response.json();
 };
+export const getInterviewHistory = async () => {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(
+    `${BASE_URL}/interview-history`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return response.json();
+};
 export const loginUser = async (email, password) => {
     const response = await fetch(`${BASE_URL}/login`, {
         method: "POST",

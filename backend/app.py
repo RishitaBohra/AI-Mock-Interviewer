@@ -251,7 +251,22 @@ def save_interview(
         "success": True,
         "message": "Interview saved successfully."
     }
+@app.get("/interview-history")
+def get_interview_history(
+    current_user: str = Depends(get_current_user)
+):
 
+    interviews = list(
+        interviews_collection.find(
+            {"email": current_user},
+            {"_id": 0}
+        ).sort("created_at", -1)
+    )
+
+    return {
+        "success": True,
+        "history": interviews
+    }
 @app.post("/signup")
 def signup(user: UserSignup):
 
