@@ -7,7 +7,7 @@ import {
   saveInterview
 } from "../services/api";
 
-function UploadResume({ onLogout }) {
+function UploadResume({ onLogout, onHistory }) {
 const [file,setFile] = useState(null)
 const [role,setRole] = useState("")
 const [difficulty,setDifficulty] = useState("")
@@ -177,20 +177,28 @@ return (
   </div>
 
   <div className="header-right">
-    <div className="session-time">
-      ⏱{" "}
-      {new Date(seconds * 1000)
-        .toISOString()
-        .substring(11, 19)}
-    </div>
-
-    <button
-      className="logout-btn"
-      onClick={handleLogout}
-    >
-      Logout
-    </button>
+  <div className="session-time">
+    ⏱{" "}
+    {new Date(seconds * 1000)
+      .toISOString()
+      .substring(11, 19)}
   </div>
+
+  <button
+    className="nav-button"
+    onClick={onHistory}
+    style={{ marginRight: "10px" }}
+  >
+    📜 History
+  </button>
+
+  <button
+    className="logout-btn"
+    onClick={handleLogout}
+  >
+    Logout
+  </button>
+</div>
 </header>
 
     <main className="interview-layout">
