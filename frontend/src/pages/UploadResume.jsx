@@ -20,6 +20,8 @@ const [seconds, setSeconds] = useState(0)
 const [interviewStarted, setInterviewStarted] = useState(false)
 const [interviewCompleted, setInterviewCompleted] = useState(false);
 const [responses, setResponses] = useState([]);
+const [isListening, setIsListening] = useState(false);
+const [recognition, setRecognition] = useState(null);
 useEffect(() => {
 
     if (!interviewStarted) return
@@ -55,6 +57,37 @@ useEffect(() => {
   save();
 
 }, [interviewCompleted]);
+useEffect(() => {
+  const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if (!SpeechRecognition) {
+    console.log("Speech Recognition is not supported.");
+    return;
+  }
+
+  const recognitionInstance = new SpeechRecognition();
+
+  recognitionInstance.continuous = true;
+  recognitionInstance.interimResults = true;
+  recognitionInstance.lang = "en-US";
+
+  recognitionInstance.onresult = (event) => {
+    let transcript = "";
+
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      transcript += event.results[i][0].transcript;
+    }
+
+    setAnswer(transcript);
+  };
+
+  recognitionInstance.onend = () => {
+    setIsListening(false);
+  };
+
+  setRecognition(recognitionInstance);
+}, []);
 const handleGenerateQuestions = async () => {
 
     const data = await generateQuestions(
@@ -148,6 +181,19 @@ const handleCopyQuestion = async () => {
   } catch (err) {
     alert("Failed to copy question.");
   }
+};
+const startListening = () => {
+  if (!recognition) return;
+
+  recognition.start();
+  setIsListening(true);
+};
+
+const stopListening = () => {
+  if (!recognition) return;
+
+  recognition.stop();
+  setIsListening(false);
 };
 const handleUpload = async () => {
 
@@ -376,6 +422,23 @@ return (
     value={answer}
     onChange={(e) => setAnswer(e.target.value)}
   />
+  <div style={{ marginTop: "10px", marginBottom: "15px" }}>
+  {!isListening ? (
+    <button
+      className="nav-button"
+      onClick={startListening}
+    >
+      🎤 Start Speaking
+    </button>
+  ) : (
+    <button
+      className="logout-btn"
+      onClick={stopListening}
+    >
+      ⏹ Stop Recording
+    </button>
+  )}
+</div>
 
   <button
     onClick={handleEvaluate}
