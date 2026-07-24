@@ -24,18 +24,21 @@ const [isListening, setIsListening] = useState(false);
 const [recognition, setRecognition] = useState(null);
 useEffect(() => {
 
-    if (!interviewStarted) return
+    if (!interviewStarted || interviewCompleted)
+        return;
 
     const timer = setInterval(() => {
 
-        setSeconds((prev) => prev + 1)
+        setSeconds(prev => prev + 1);
 
-    }, 1000)
+    },1000);
 
-    return () => clearInterval(timer)
+    return () => clearInterval(timer);
 
-}, [interviewStarted])
-
+},[
+    interviewStarted,
+    interviewCompleted
+]);
 useEffect(() => {
   if (!interviewCompleted) return;
 
@@ -87,6 +90,16 @@ useEffect(() => {
   };
 
   setRecognition(recognitionInstance);
+}, []);
+useEffect(() => {
+  if (questionList.length > 0) {
+    speakQuestion();
+  }
+}, [currentQuestion, questionList]);
+useEffect(() => {
+  return () => {
+    window.speechSynthesis.cancel();
+  };
 }, []);
 const handleGenerateQuestions = async () => {
 
@@ -158,6 +171,7 @@ const handleEvaluate = async () => {
 }
 
 const handleResetInterview = () => {
+  window.speechSynthesis.cancel();
   setFile(null);
   setRole("");
   setDifficulty("");
@@ -169,6 +183,9 @@ const handleResetInterview = () => {
   setSeconds(0);
   setInterviewStarted(false);
   setResponses([]);
+  setInterviewCompleted(false);
+setInterviewStarted(false);
+setSeconds(0);
 };
 
 const handleCopyQuestion = async () => {
@@ -181,6 +198,30 @@ const handleCopyQuestion = async () => {
   } catch (err) {
     alert("Failed to copy question.");
   }
+};
+const speakQuestion = () => {
+    if (!questionList[currentQuestion]) return;
+
+    window.speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(
+        questionList[currentQuestion]
+    );
+
+    const voices = window.speechSynthesis.getVoices();
+    const englishVoice = voices.find((v) =>
+        v.lang.startsWith("en")
+    );
+
+    if (englishVoice) {
+        utterance.voice = englishVoice;
+    }
+
+    utterance.lang = "en-US";
+    utterance.rate = 1;
+    utterance.pitch = 1;
+
+    window.speechSynthesis.speak(utterance);
 };
 const startListening = () => {
   if (!recognition) return;
@@ -206,6 +247,7 @@ const handleUpload = async () => {
   
 }
 const handleLogout = () => {
+    window.speechSynthesis.cancel();
     logout();
     onLogout();
 };
@@ -298,14 +340,18 @@ return (
 
   <button onClick={handleGenerateQuestions}>
     Generate Questions ✨
-  </button>
-</div>
-<button
-  className="reset-button"
-  onClick={handleResetInterview}
->
-  🔄 Reset Interview
 </button>
+
+<button
+    className="reset-button"
+    onClick={handleResetInterview}
+>
+    🔄 Reset Interview
+</button>
+
+</div>
+
+
 
 <div className="question-panel">
   <p className="section-label">QUESTION</p>
@@ -367,6 +413,15 @@ return (
 <pre className="question-text">
   {questionList[currentQuestion]}
 </pre>
+
+<div style={{ marginTop: "10px", marginBottom: "15px" }}>
+  <button
+    className="nav-button"
+    onClick={speakQuestion}
+  >
+    🔊 Read Question
+  </button>
+</div>
     <div className="question-navigation">
 
   <button
@@ -387,6 +442,7 @@ return (
     if (currentQuestion === questionList.length - 1) {
       setInterviewCompleted(true);
     } else {
+      window.speechSynthesis.cancel();
       setCurrentQuestion(currentQuestion + 1);
       setAnswer("");
       setEvaluation("");

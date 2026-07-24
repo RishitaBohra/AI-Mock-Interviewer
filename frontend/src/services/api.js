@@ -1,5 +1,6 @@
 import { getToken } from "./auth";
-const BASE_URL = "https://interviewer-backend-mnq2.onrender.com";
+// const BASE_URL = "https://interviewer-backend-mnq2.onrender.com";
+const BASE_URL = "http://127.0.0.1:8000";
 
 export const uploadResume = async (file) => {
     const formData = new FormData();
