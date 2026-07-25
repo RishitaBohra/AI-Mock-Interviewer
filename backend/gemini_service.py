@@ -81,3 +81,41 @@ Keep the response concise.
     )
 
     return response.text
+
+# -----------------------------
+# Generate Overall Interview Summary
+# -----------------------------
+def generate_interview_summary(responses):
+
+    prompt = f"""
+You are a senior technical interviewer.
+
+Below are all the interview responses of a candidate.
+
+{responses}
+
+Based on the complete interview, generate:
+
+1. Overall Score (/10)
+2. Technical Knowledge (/10)
+3. Communication Skills (/10)
+4. Problem Solving (/10)
+5. Confidence (/10)
+
+Then provide:
+
+Strengths:
+- 3 bullet points
+
+Areas for Improvement:
+- 3 bullet points
+
+Keep the response concise and professional.
+"""
+
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=prompt
+    )
+
+    return response.text

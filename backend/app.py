@@ -3,7 +3,8 @@ from pypdf import PdfReader
 from gemini_service import (
     generate_questions,
     evaluate_answer,
-    get_embedding
+    get_embedding,
+    generate_interview_summary
 )
 from pydantic import BaseModel
 
@@ -152,6 +153,10 @@ class EvaluationRequest(
 
     answer:str
 
+class SummaryRequest(BaseModel):
+
+    responses: list
+
 @app.post("/generate-questions")
 def interview(
     request: InterviewRequest,
@@ -224,7 +229,19 @@ def evaluate(
         result
 
     }
+@app.post("/generate-summary")
+def generate_summary(
+    request: SummaryRequest,
+    current_user: str = Depends(get_current_user)
+):
 
+    summary = generate_interview_summary(
+        request.responses
+    )
+
+    return {
+        "summary": summary
+    }
 from datetime import datetime
 
 @app.post("/save-interview")
