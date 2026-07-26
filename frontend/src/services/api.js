@@ -116,3 +116,21 @@ export const signupUser = async (name, email, password) => {
 
     return await response.json();
 };
+export const generateSummary = async (responses) => {
+
+  const response = await fetch(
+    `${BASE_URL}/generate-summary`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      },
+      body: JSON.stringify({
+        responses,
+      }),
+    }
+  );
+
+  return response.json();
+};

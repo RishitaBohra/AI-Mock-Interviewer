@@ -4,7 +4,8 @@ import {
   uploadResume,
   generateQuestions,
   evaluateAnswer,
-  saveInterview
+  saveInterview,
+  generateSummary
 } from "../services/api";
 
 function UploadResume({ onLogout, onHistory }) {
@@ -22,6 +23,8 @@ const [interviewCompleted, setInterviewCompleted] = useState(false);
 const [responses, setResponses] = useState([]);
 const [isListening, setIsListening] = useState(false);
 const [recognition, setRecognition] = useState(null);
+const [summary, setSummary] = useState("");
+
 useEffect(() => {
 
     if (!interviewStarted || interviewCompleted)
@@ -40,24 +43,35 @@ useEffect(() => {
     interviewCompleted
 ]);
 useEffect(() => {
+
   if (!interviewCompleted) return;
 
-  const save = async () => {
+  const completeInterview = async () => {
+
     try {
-      const data = await saveInterview(
+
+      await saveInterview(
         role,
         difficulty,
         seconds,
         responses
       );
 
-      console.log(data);
+      const result = await generateSummary(
+        responses
+      );
+
+      setSummary(result.summary);
+
     } catch (error) {
-      console.error("Failed to save interview:", error);
+
+      console.error(error);
+
     }
+
   };
 
-  save();
+  completeInterview();
 
 }, [interviewCompleted]);
 useEffect(() => {
@@ -186,6 +200,7 @@ const handleResetInterview = () => {
   setInterviewCompleted(false);
 setInterviewStarted(false);
 setSeconds(0);
+setSummary("");
 };
 
 const handleCopyQuestion = async () => {
@@ -380,6 +395,19 @@ return (
         .substring(11, 19)}
     </p>
   </div>
+  {summary && (
+
+<div className="evaluation-box">
+
+    <p className="section-label">
+        OVERALL INTERVIEW REPORT
+    </p>
+
+    <pre>{summary}</pre>
+
+</div>
+
+)}
 
 </div>
 
