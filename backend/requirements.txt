@@ -6,3 +6,8 @@ pypdf
 numpy
 chromadb
 google-genai
+pymongo
+python-jose[cryptography]
+passlib[bcrypt]
+bcrypt
+email-validator
