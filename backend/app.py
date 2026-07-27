@@ -133,15 +133,11 @@ async def upload_resume(
 
     }
 
-class InterviewRequest(
+class InterviewRequest(BaseModel):
 
-    BaseModel
-
-):
-
-    role:str
-
-    difficulty:str
+    role: str
+    difficulty: str
+    company: str
 
 class EvaluationRequest(
 
@@ -187,13 +183,15 @@ def interview(
 
     questions = generate_questions(
 
-        context,
+    context,
 
-        request.role,
+    request.role,
 
-        request.difficulty
+    request.difficulty,
 
-    )
+    request.company
+
+)
 
 
 

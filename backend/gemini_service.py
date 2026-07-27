@@ -24,7 +24,12 @@ def get_embedding(text):
 # -----------------------------
 # Generate Interview Questions
 # -----------------------------
-def generate_questions(context, role, difficulty):
+def generate_questions(
+    context,
+    role,
+    difficulty,
+    company
+):
 
     prompt = f"""
 You are an experienced technical interviewer.
@@ -35,10 +40,17 @@ Role:
 Difficulty:
 {difficulty}
 
+Target Company:
+{company}
+
 Resume Context:
 {context}
 
-Generate exactly 5 technical interview questions based on the candidate's resume.
+Generate exactly 5 technical interview questions.
+
+The questions should resemble the interview style commonly asked at {company}.
+
+Use the candidate's resume context whenever possible to personalize the questions.
 
 Only return the questions.
 """

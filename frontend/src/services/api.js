@@ -14,7 +14,11 @@ export const uploadResume = async (file) => {
     return response.json();
 };
 
-export const generateQuestions = async (role, difficulty) => {
+export const generateQuestions = async (
+  role,
+  difficulty,
+  company
+) => {
     const response = await fetch(`${BASE_URL}/generate-questions`, {
         method: "POST",
         headers: {
@@ -22,9 +26,10 @@ export const generateQuestions = async (role, difficulty) => {
             Authorization: `Bearer ${getToken()}`,
         },
         body: JSON.stringify({
-            role,
-            difficulty,
-        }),
+    role,
+    difficulty,
+    company,
+}),
     });
 
     return response.json();

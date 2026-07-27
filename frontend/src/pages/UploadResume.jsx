@@ -24,6 +24,7 @@ const [responses, setResponses] = useState([]);
 const [isListening, setIsListening] = useState(false);
 const [recognition, setRecognition] = useState(null);
 const [summary, setSummary] = useState("");
+const [company, setCompany] = useState("Google");
 
 useEffect(() => {
 
@@ -121,7 +122,9 @@ const handleGenerateQuestions = async () => {
 
         role,
 
-        difficulty
+        difficulty,
+
+        company
 
     )
 
@@ -352,6 +355,21 @@ return (
     <option value="Medium">Medium</option>
     <option value="Hard">Hard</option>
   </select>
+
+  <label>Company</label>
+
+<select
+  value={company}
+  onChange={(e) => setCompany(e.target.value)}
+>
+  <option>Google</option>
+  <option>Amazon</option>
+  <option>Microsoft</option>
+  <option>Infosys</option>
+  <option>TCS</option>
+  <option>Accenture</option>
+  <option>Flipkart</option>
+</select>
 
   <button onClick={handleGenerateQuestions}>
     Generate Questions ✨
