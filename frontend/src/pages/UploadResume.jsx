@@ -25,6 +25,8 @@ const [isListening, setIsListening] = useState(false);
 const [recognition, setRecognition] = useState(null);
 const [summary, setSummary] = useState("");
 const [company, setCompany] = useState("Google");
+const [loadingQuestions, setLoadingQuestions] = useState(false);
+const [loadingEvaluation, setLoadingEvaluation] = useState(false);
 
 useEffect(() => {
 
@@ -118,74 +120,82 @@ useEffect(() => {
 }, []);
 const handleGenerateQuestions = async () => {
 
-    const data = await generateQuestions(
-
-        role,
-
-        difficulty,
-
-        company
-
-    )
-
-    console.log(data)
-
-    setQuestions(data.questions)
-
-const parsedQuestions = data.questions
-  .split("\n")
-  .filter((q) => q.trim() !== "")
-
-setQuestionList(parsedQuestions)
-
-setCurrentQuestion(0)
-setResponses([]);
-
-setInterviewCompleted(false)
-setSeconds(0)
-
-setInterviewStarted(true)
-    setEvaluation("")
-setAnswer("")
-
-}
-const handleEvaluate = async () => {
   try {
-    const data = await evaluateAnswer(questions, answer)
+
+    setLoadingQuestions(true);
+
+    const data = await generateQuestions(
+      role,
+      difficulty,
+      company
+    );
+
+    setQuestions(data.questions);
+
+    const parsedQuestions = data.questions
+      .split("\n")
+      .filter((q) => q.trim() !== "");
+
+    setQuestionList(parsedQuestions);
+
+    setCurrentQuestion(0);
+    setResponses([]);
+    setInterviewCompleted(false);
+    setSeconds(0);
+    setInterviewStarted(true);
+    setEvaluation("");
+    setAnswer("");
+
+  } finally {
+
+    setLoadingQuestions(false);
+
+  }
+};
+const handleEvaluate = async () => {
+
+  try {
+
+    setLoadingEvaluation(true);
+
+    const data = await evaluateAnswer(
+      questions,
+      answer
+    );
 
     if (data.evaluation) {
 
-  setEvaluation(data.evaluation);
+      setEvaluation(data.evaluation);
 
-  const currentResponse = {
-    question: questionList[currentQuestion],
-    answer: answer,
-    evaluation: data.evaluation,
-  };
+      const currentResponse = {
+        question: questionList[currentQuestion],
+        answer,
+        evaluation: data.evaluation,
+      };
 
-  setResponses((prev) => {
-  const updated = [...prev];
+      setResponses((prev) => {
+        const updated = [...prev];
+        updated[currentQuestion] = currentResponse;
+        return updated;
+      });
 
-  updated[currentQuestion] = currentResponse;
+    }
 
-  return updated;
-});
-
-} else {
-
-  setEvaluation(
-    "Could not evaluate the answer right now. Please try again later."
-  );
-
-}
   } catch (error) {
-    console.error(error)
+
+    console.error(error);
 
     setEvaluation(
-      "Gemini evaluation is temporarily unavailable because the API quota has been reached. Please try again later."
-    )
+      "Gemini evaluation is temporarily unavailable."
+    );
+
+  } finally {
+
+    setLoadingEvaluation(false);
+
   }
-}
+
+};
 
 const handleResetInterview = () => {
   window.speechSynthesis.cancel();
@@ -371,8 +381,13 @@ return (
   <option>Flipkart</option>
 </select>
 
-  <button onClick={handleGenerateQuestions}>
-    Generate Questions ✨
+  <button
+  onClick={handleGenerateQuestions}
+  disabled={loadingQuestions}
+>
+  {loadingQuestions
+    ? "🤖 Generating..."
+    : "Generate Questions ✨"}
 </button>
 
 <button
@@ -543,11 +558,13 @@ return (
 </div>
 
   <button
-    onClick={handleEvaluate}
-    disabled={!answer.trim()}
-  >
-    Evaluate Response →
-  </button>
+  onClick={handleEvaluate}
+  disabled={!answer.trim() || loadingEvaluation}
+>
+  {loadingEvaluation
+    ? "🧠 Evaluating..."
+    : "Evaluate Response →"}
+</button>
 
   {evaluation && (
     <div className="evaluation-box">
