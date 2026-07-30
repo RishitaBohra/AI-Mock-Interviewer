@@ -446,9 +446,17 @@ return (
 
 ) : questionList.length > 0 ? (
   <>
-    <h2>
-      Question {currentQuestion + 1} of {questionList.length}
-    </h2>
+   <p
+  style={{
+    color: "#94a3b8",
+    marginTop: "-10px",
+    marginBottom: "18px",
+    fontSize: "14px",
+    fontWeight: "500",
+  }}
+>
+  ✅ Completed {currentQuestion + 1} / {questionList.length} Questions
+</p>
     <div className="progress-container">
   {questionList.map((_, index) => (
     <div
