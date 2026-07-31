@@ -532,9 +532,39 @@ return (
   <h3>Your interview is ready to begin</h3>
 
   <p>
-    Upload your resume, choose a role and difficulty,
+    Upload your resume, choose a role, company, and difficulty,
     then generate your first question.
   </p>
+
+  <div
+    style={{
+      marginTop: "20px",
+      padding: "16px",
+      borderRadius: "12px",
+      background: "#111a2e",
+      border: "1px solid #24304a",
+      textAlign: "left",
+    }}
+  >
+    <strong style={{ color: "#8b5cf6" }}>
+      💡 Interview Tips
+    </strong>
+
+    <ul
+      style={{
+        marginTop: "10px",
+        lineHeight: "1.8",
+        color: "#cbd5e1",
+        paddingLeft: "18px",
+      }}
+    >
+      <li>Upload your latest resume.</li>
+      <li>Select your target company.</li>
+      <li>Answer confidently with examples.</li>
+      <li>Use 🎤 Voice Mode for realistic practice.</li>
+      <li>Review the AI feedback after every answer.</li>
+    </ul>
+  </div>
 </div>
   )}
 </div>
