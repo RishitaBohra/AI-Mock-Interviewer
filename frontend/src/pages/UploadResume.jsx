@@ -391,10 +391,14 @@ return (
 </button>
 
 <button
-    className="reset-button"
-    onClick={handleResetInterview}
+  className="reset-button"
+  onClick={() => {
+    if (window.confirm("Reset the current interview?")) {
+      handleResetInterview();
+    }
+  }}
 >
-    🔄 Reset Interview
+  🔄 Reset Interview
 </button>
 
 </div>
