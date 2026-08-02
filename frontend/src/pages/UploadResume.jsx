@@ -340,10 +340,12 @@ return (
   />
 </label>
 
-  <button onClick={handleUpload}>
-    Upload Resume
-  </button>
-
+  <button
+  onClick={handleUpload}
+  disabled={!file}
+>
+  Upload Resume
+</button>
   <p className="section-label">INTERVIEW SETUP</p>
 
   <label>Role</label>
