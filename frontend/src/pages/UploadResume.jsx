@@ -473,7 +473,20 @@ return (
     />
   ))}
 </div>
-
+<div
+  style={{
+    display: "inline-block",
+    marginBottom: "12px",
+    padding: "6px 12px",
+    borderRadius: "20px",
+    background: "#f59e0b",
+    color: "#111827",
+    fontWeight: "700",
+    fontSize: "13px",
+  }}
+>
+  ⭐ {difficulty} Difficulty
+</div>
   <div className="question-header">
   <h3>Interview Question</h3>
 
