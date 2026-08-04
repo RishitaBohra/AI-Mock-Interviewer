@@ -391,7 +391,16 @@ return (
     ? "🤖 Generating..."
     : "Generate Questions ✨"}
 </button>
-
+<p
+  style={{
+    marginTop: "10px",
+    color: "#94a3b8",
+    fontSize: "13px",
+    textAlign: "center",
+  }}
+>
+  📋 Your interview will contain <strong>5 AI-generated questions</strong>
+</p>
 <button
   className="reset-button"
   onClick={() => {
