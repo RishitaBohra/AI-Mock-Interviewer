@@ -382,6 +382,17 @@ return (
   <option>Accenture</option>
   <option>Flipkart</option>
 </select>
+<p
+  style={{
+    fontSize: "12px",
+    color: "#94a3b8",
+    marginTop: "6px",
+    marginBottom: "12px",
+    lineHeight: "1.5",
+  }}
+>
+  💡 Questions will be personalized based on your selected company and resume.
+</p>
 
   <button
   onClick={handleGenerateQuestions}
