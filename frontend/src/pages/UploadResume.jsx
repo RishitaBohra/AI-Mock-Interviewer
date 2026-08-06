@@ -82,7 +82,9 @@ useEffect(() => {
     window.SpeechRecognition || window.webkitSpeechRecognition;
 
   if (!SpeechRecognition) {
-    console.log("Speech Recognition is not supported.");
+    alert(
+    "Speech Recognition is not supported in this browser. Please use Google Chrome for the best experience."
+  );
     return;
   }
 
