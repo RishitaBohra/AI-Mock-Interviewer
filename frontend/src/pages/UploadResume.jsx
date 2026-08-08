@@ -634,6 +634,16 @@ return (
       ⏹ Stop Recording
     </button>
   )}
+  <button
+  className="nav-button"
+  onClick={() => {
+    setAnswer("");
+    setEvaluation("");
+  }}
+  style={{ marginLeft: "10px" }}
+>
+  🗑️ Clear Answer
+</button>
 </div>
 
   <button
